@@ -1,0 +1,24 @@
+{
+  "name": "dvataro",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lushiyi61/dvataro.git"
+  },
+  "keywords": [
+    "dva",
+    "typescript",
+    "taro"
+  ],
+  "author": "lushiyi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lushiyi61/dvataro/issues"
+  },
+  "homepage": "https://github.com/lushiyi61/dvataro#readme"
+}
