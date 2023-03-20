@@ -16,9 +16,12 @@ import Taro from "@tarojs/taro";
 export enum EFunctionKey {
     RSetState = "RSetState",
     EGet = "EGet",
+    EGetOne = "EGetOne",
     EPost = "EPost",
+    EPostBatch = "EPostBatch",
     EDelete = "EDelete",
     EPut = "EPut",
+    EPutBatch = "EPutBatch",
 }
 
 // dva参数
@@ -159,7 +162,7 @@ function request(
     url: string,
     options: any,
     ContentType: any = null,
-) {
+): Promise<any> {
     return new Promise((resolve, reject) => {
         const { method, body } = options;
         // 添加url前缀
