@@ -106,9 +106,15 @@ export const effect = async (
 };
 
 /*------------------------- 基于axios实现的通用request，json格式，jwt校验 -------------------------*/
-const requestParams: any = {
-    serverHome: null,
-    errorHanlder: null,
+const requestParams: {
+    serverHome: string[],
+    errorHanlder: Function,
+    printLog: boolean,
+    extraHeaders: any,
+    serverHomeIndex: number,
+} = {
+    serverHome: [],
+    errorHanlder: () => { },
     printLog: false,
     extraHeaders: {},
     serverHomeIndex: 0,
@@ -136,27 +142,34 @@ export function bindJWTToken(token?: string) {
         delete requestParams.extraHeaders["Authorization"];
     }
 }
-export function requestGet(url: string, body?: any,): any {
-    return request(url, { method: "GET", body }, null);
+
+export function getUrl(url?: string, index: number = -1): string {
+    if (!url) {
+        return requestParams.serverHome[requestParams.serverHomeIndex]
+    }
+    // 添加url前缀
+    if (!url.startsWith("https://") && !url.startsWith("http://")) {
+        return requestParams.serverHome[index >= 0 ? index : requestParams.serverHomeIndex] + url;
+    }
+    return url
 }
-export function requestDelete(url: string) {
-    return request(url, { method: "DELETE" }, null);
+
+export function requestGet(url: string, body?: any, serverHomeIndex?: number): any {
+    return request(getUrl(url, serverHomeIndex), { method: "GET", body }, null);
 }
-export function requestPost(url: string, body?: any,): any {
-    return request(url, { method: "POST", body }, null);
+export function requestDelete(url: string, serverHomeIndex?: number) {
+    return request(getUrl(url, serverHomeIndex), { method: "DELETE" }, null);
 }
-export function requestPatch(url: string, body?: any,) {
-    return request(url, { method: "PATCH", body }, null);
+export function requestPost(url: string, body?: any, serverHomeIndex?: number): any {
+    return request(getUrl(url, serverHomeIndex), { method: "POST", body }, null);
 }
-export function requestPut(url: string, body?: any,) {
+export function requestPatch(url: string, body?: any, serverHomeIndex?: number) {
+    return request(getUrl(url, serverHomeIndex), { method: "PATCH", body }, null);
+}
+export function requestPut(url: string, body?: any, serverHomeIndex?: number) {
     body && delete body.id;
-    return request(url, { method: "PUT", body }, null);
+    return request(getUrl(url, serverHomeIndex), { method: "PUT", body }, null);
 }
-// export function requestFile(url: string, file: File, serverHomeIndex: number = 0) {
-//     let body = new FormData()
-//     body.append('file', file)
-//     return request(url, { method: 'POST', body }, 'application/form-data', serverHomeIndex)
-// }
 
 function request(
     url: string,
@@ -165,15 +178,10 @@ function request(
 ): Promise<any> {
     return new Promise((resolve, reject) => {
         const { method, body } = options;
-        // 添加url前缀
-        if (url.indexOf("https://") === -1 && url.indexOf("http://") === -1) {
-            url =
-                requestParams.serverHome[requestParams.serverHomeIndex] +
-                (url.indexOf("/") === 0 ? url.substr(1) : url);
-            if (!requestParams.extraHeaders["Authorization"]) {
-                const token = Taro.getStorageSync(dvaParams.token);
-                token && (requestParams.extraHeaders["Authorization"] = token);
-            }
+
+        if (!requestParams.extraHeaders["Authorization"]) {
+            const token = Taro.getStorageSync(dvaParams.token);
+            token && (requestParams.extraHeaders["Authorization"] = token);
         }
         const option: any = {
             method,
