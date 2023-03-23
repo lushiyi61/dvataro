@@ -24,8 +24,8 @@ export enum EFunctionKey {
     EPutBatch = "EPutBatch",
 }
 export const reducers = {
-    [EFunctionKey.RSetState](payload: any, state: any) {
-        return { ...payload, ...state }
+    [EFunctionKey.RSetState](state: any, payload: any) {
+        return { ...state, ...payload }
     }
 }
 // dva参数
