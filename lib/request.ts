@@ -1,4 +1,4 @@
-import * as  Taro from "@tarojs/taro";
+import Taro from "@tarojs/taro";
 
 /*------------------------- 基于Taro实现的通用request，json格式，jwt校验 -------------------------*/
 const requestParams: {
