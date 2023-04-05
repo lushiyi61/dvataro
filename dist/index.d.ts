@@ -6,8 +6,5 @@
 @Contact :   lk920125@hotmail.com
 yarn add axios @rematch/loading @rematch/core  react-redux redux typescript @tarojs/taro
 ***************************************/
-
-
-export * from './dva'
-// export * from './file'
-export * from './request'
+export * from './dva';
+export * from './request';
