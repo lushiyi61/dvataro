@@ -91,9 +91,9 @@ const initModels = (printLog = false, token = "Token") => {
     return dvaParams.storeInstance;
 };
 exports.initModels = initModels;
-const useLoading = (namespace) => {
+const useLoading = (namespace, effects) => {
     return (0, react_redux_1.useSelector)((store) => {
-        return store.loading.models[namespace];
+        return effects ? store.loading.models[namespace][effects] : store.loading.models[namespace];
     });
 };
 exports.useLoading = useLoading;

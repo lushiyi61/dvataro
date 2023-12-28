@@ -21,7 +21,7 @@ export declare const reducers: {
 };
 export declare function bindingModel(model: any): void;
 export declare const initModels: (printLog?: boolean, token?: string) => any;
-export declare const useLoading: (namespace: string) => any;
+export declare const useLoading: (namespace: string, effects?: string) => any;
 export declare const useConnect: (namespace: string) => any;
 export declare const reducer: (namespace: string, type: string, payload: any) => any;
 export declare const effect: (namespace: string, type: string, payload?: any) => Promise<any>;
